@@ -62,8 +62,8 @@ public class UserDaoJDBCImpl implements UserDao {
         try {
             Connection conn = Util.getConnection();
             Statement st = conn.createStatement();
-            int cnt = st.executeUpdate("DELETE FROM Users WHERE Id = " + String.valueOf(id) + ";");
-            System.out.println(cnt == 1 ? "Удален пользоавтель с id = " + String.valueOf(id) : "В БД не обнаружен пользователь с id = " + String.valueOf(id));
+            int cnt = st.executeUpdate("DELETE FROM Users WHERE Id = " + id + ";");
+            System.out.println(cnt == 1 ? "Удален пользоавтель с id = " + id : "В БД не обнаружен пользователь с id = " + id);
         } catch (ClassNotFoundException x) {
             System.out.println("Возникли проблемы c jdbc-драйвером");
         } catch (SQLException x) {
