@@ -13,8 +13,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             Statement st = conn.createStatement();
             st.executeUpdate("CREATE TABLE IF NOT EXISTS Users (Id bigint primary key auto_increment, name varchar(100), lastName varchar(100), age tinyint);");
             System.out.println("Создана таблица Users");
@@ -26,8 +25,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             Statement st = conn.createStatement();
             st.executeUpdate("DROP TABLE IF EXISTS Users;");
             System.out.println("Удалена таблица Users");
@@ -41,8 +39,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             PreparedStatement pst = conn.prepareStatement("INSERT INTO Users (name, LastName, age) VALUES (?, ?, ?);");
             pst.setString(1, name);
             pst.setString(2, lastName);
@@ -59,8 +56,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             Statement st = conn.createStatement();
             int cnt = st.executeUpdate("DELETE FROM Users WHERE Id = " + id + ";");
             System.out.println(cnt == 1 ? "Удален пользоавтель с id = " + id : "В БД не обнаружен пользователь с id = " + id);
@@ -73,8 +69,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public List<User> getAllUsers() {
         List<User> userLst = new ArrayList<>();
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             Statement st = conn.createStatement();
             ResultSet resSet = st.executeQuery("SELECT name, lastName, age FROM Users;");
             while(resSet.next()) {
@@ -90,8 +85,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-        try {
-            Connection conn = Util.getConnection();
+        try (Connection conn = Util.getConnection()) {
             Statement st = conn.createStatement();
             int cnt = st.executeUpdate("DELETE FROM Users;");
             System.out.printf("Удалено %s записей из таблицы User\n", cnt);
